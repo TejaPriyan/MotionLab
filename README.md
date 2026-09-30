@@ -118,7 +118,7 @@ MotionLab/
 ├── index.html                    # Production web application with full SEO/AEO/GEO schemas
 ├── MOTION LAB.html               # Standalone portable single-file distribution
 ├── server.js                     # Local HTTP streaming server with complete MIME handling
-├── google87bb3bc53ec346d2.html   # Google Search Console verification token
+├── google2af4e1ed3191321d.html   # Google Search Console verification token
 ├── robots.txt                    # Search crawler indexing rules
 ├── sitemap.xml                   # XML sitemap schema for search indexing
 ├── LICENSE                       # Strict Proprietary & Confidential License
@@ -133,7 +133,7 @@ MotionLab/
    The standalone, zero-dependency source application file, identical in features and ready for instant drag-and-drop viewing in any browser.
 3. **`server.js`**:
    Node.js streaming static file server supporting full MIME types (`.html`, `.js`, `.css`, `.json`, `.png`, `.jpg`, `.svg`, `.webm`, `.mp4`, `.xml`, `.txt`) on port 8080.
-4. **`google87bb3bc53ec346d2.html`**:
+4. **`google2af4e1ed3191321d.html`**:
    Official ownership verification file for Google Search Console indexing.
 5. **`robots.txt`**:
    Robots exclusion standard configuration enabling web crawlers to index the application.
