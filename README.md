@@ -5,6 +5,7 @@
 ### High-Performance Kinetic Typography & Interactive Physics Playground
 **Conceived, Designed & Developed by [Teja Priyan](https://github.com/TejaPriyan)**
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-motionlab1.vercel.app-00dfa2?style=for-the-badge&logo=vercel)](https://motionlab1.vercel.app/)
 [![Author](https://img.shields.io/badge/Author-Teja%20Priyan-ff6a3d?style=for-the-badge&logo=github)](https://github.com/TejaPriyan)
 [![License: Proprietary](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg?style=for-the-badge)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Vanilla%20JS)-success?style=for-the-badge)](https://github.com/TejaPriyan/MotionLab)

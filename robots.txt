@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tejapriyan.github.io/MotionLab/sitemap.xml
+Sitemap: https://motionlab1.vercel.app/sitemap.xml
