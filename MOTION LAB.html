@@ -7,7 +7,7 @@
 
 <!-- Primary SEO Meta Tags -->
 <meta name="title" content="Motion Lab — Interactive Kinetic Typography &amp; Generative Physics by Teja Priyan">
-<meta name="description" content="Motion Lab is an interactive kinetic typography and physics laboratory by Teja Priyan. Features 7 dynamic physics environments, 8 material shaders, procedural Web Audio synthesis, 60fps timeline replay, and video export.">
+<meta name="description" content="Motion Lab is an interactive kinetic typography and physics laboratory by Teja Priyan. Features 7 dynamic physics environments, 8 material shaders, procedural Web Audio synthesis, 60fps timeline replay, interactive particle removal tool, and video export.">
 <meta name="keywords" content="Motion Lab, Teja Priyan, kinetic typography, creative coding, interactive physics playground, procedural audio synthesis, HTML5 canvas animation, Web Audio API, generative art, motion design, TejaPriyan">
 <meta name="author" content="Teja Priyan">
 <meta name="creator" content="Teja Priyan">
@@ -75,7 +75,7 @@
           "name": "What is Motion Lab?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Motion Lab is an interactive kinetic typography and physics simulation playground created by Teja Priyan. It allows users to interact with letters and shapes using real-time physics modes, material shaders, procedural sound, and timeline video recording."
+            "text": "Motion Lab is an interactive kinetic typography and physics simulation playground created by Teja Priyan. It allows users to interact with letters and shapes using real-time physics modes, material shaders, procedural sound, particle deletion tools, and timeline video recording."
           }
         },
         {
@@ -142,6 +142,8 @@ input[type=range]{accent-color:#f4f4f2;width:min(52vw,300px)}
 .rc i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ff3b30;margin-right:.8em;opacity:1;animation:pl 1.2s infinite}
 @keyframes pl{50%{opacity:.25}}
 body.rec .rc{border-color:#ff3b30}
+.rm-btn.on{background:#ff3b30!important;color:#fff!important;border-color:#ff3b30!important;box-shadow:0 0 12px rgba(255,59,48,.5)}
+body.remove-mode canvas{cursor:crosshair!important}
 #frame{position:fixed;inset:10px;border:1px solid rgba(255,59,48,.4);pointer-events:none;opacity:0;transition:opacity .5s}
 body.rec #frame{opacity:1}
 #rp,#res,#prog{position:fixed;transition:transform .8s var(--e),opacity .5s,filter .6s;opacity:0;pointer-events:none;filter:blur(10px)}
@@ -183,7 +185,7 @@ body:not(.lab) #bot *,body.rp #bot *,body.lab #land *,body:not(.res) #res *,body
 </style>
 </head>
 <body>
-<canvas id="c" role="img" aria-label="Interactive motion canvas. Move the pointer to push, pull and throw the letters."></canvas>
+<canvas id="c" role="img" aria-label="Interactive motion canvas. Move the pointer to push, pull, throw or remove the particles."></canvas>
 <div id="frame"></div>
 <div id="top"><b id="logo">MOTION LAB</b><span><button class="b" id="snd">SOUND OFF</button> <button class="b" id="perf">PERF AUTO</button></span></div>
 <div id="hud"></div>
@@ -211,7 +213,7 @@ const MP=[{m:1,b:1,d:1,g:1},{m:.6,b:1.1,d:.7,g:.8},{m:1.8,b:.8,d:.8,g:1.2},{m:.9
 const MD={landing:[70,.5,1.2],gravity:[0,0,1],magnet:[2.6,.3,1],repel:[5,.5,1],wind:[2.2,.3,1],liquid:[3.5,.3,3],orbit:[0,0,1.2],chaos:[1.4,.4,1]};
 const COL=[[244,244,242],[140,210,255],[255,106,61],[182,156,255],[255,210,122]];
 const CAMS=['AUTO','PUSH','PULL','ORBIT','FOLLOW','LOCKED'],WORDS=['MOTION','CREATE','HELLO','ANYTHING','TEJA','DRIFT','SIGNAL','FLOW'];
-const S={mode:'landing',mat:0,col:0,text:'MOTION LAB',parts:true,broken:false,parents:null,perf:1,pm:-1,glitch:false,cam:'AUTO',sign:true,fmt:'9:16',stage:0};
+const S={mode:'landing',mat:0,col:0,text:'MOTION LAB',parts:true,broken:false,parents:null,perf:1,pm:-1,glitch:false,cam:'AUTO',sign:true,fmt:'9:16',stage:0,remove:false};
 const P={g:1400,b:.55,a:.35,f:.3};
 let W,H,DPR=1,T=0,B=[],IMP=0,G=null,lb=-1;
 const CAM={x:0,y:0,z:1,tz:1,r:0,sx:0,sy:0,sh:0},WV={x:0,y:0};
@@ -300,7 +302,7 @@ function brk(){if(S.broken)return;const par=B.filter(b=>b.w1===undefined),sh=[];
   ring(p.x,p.y,S.mat==7||S.mat==6?24:10,600,1.2,3)});
  S.parents=par;B=B.filter(b=>b.w1!==undefined).concat(sh);S.broken=true;IMP=1.3;snd('boom');structChanged();sync()}
 function rebuild(){if(!S.broken)return;B.forEach((b,i)=>{if(b.w1!==undefined){b.reb=true;b.done=0;b.dl=i*.006+R_()*.3}});CAM.tz=1.12;setTimeout(()=>CAM.tz=1,1400);snd('rec')}
-function finishRebuild(){const keep=B.filter(b=>b.w1===undefined);S.parents.forEach(p=>{p.x=p.hx;p.y=p.hy;p.vx=p.vy=p.av=p.a=0;p.grab=0;keep.push(p);ring(p.x,p.y,14,380,.9,3)});B=keep;S.parents=null;S.broken=false;snd('done');structChanged();sync()}
+function finishRebuild(){const keep=B.filter(b=>b.w1===undefined);if(S.parents)S.parents.forEach(p=>{p.x=p.hx;p.y=p.hy;p.vx=p.vy=p.av=p.a=0;p.grab=0;keep.push(p);ring(p.x,p.y,14,380,.9,3)});B=keep;S.parents=null;S.broken=false;snd('done');structChanged();sync()}
 function morph(){if(S.broken)return;S.stage=(S.stage+1)%4;const k=['char','circle','triangle','dot'][S.stage];
  B.forEach(b=>{if(b.ch===undefined)return;b.pk=b.k;b.k=k;b.mt=0;if(k==='dot'){b.vx+=(R_()-.5)*500;b.vy+=(R_()-.5)*500}});structChanged();snd('burst')}
 function explode(x,y){B.forEach(b=>{const dx=b.x-x,dy=b.y-y,d=Math.hypot(dx,dy)||1,f=1900/(1+d/260);b.vx+=dx/d*f;b.vy+=dy/d*f-150;b.av+=(R_()-.5)*10;b.grab=0});G=null;ring(x,y,60,900,1,3);IMP=1.2;snd('boom')}
@@ -344,6 +346,7 @@ function render(c,ow,oh,ww,V){const s=ow/ww,col=COL[V.col],q=V.cur;
  let gh=[];if(V.gl)gh=[[-3,0,'rgba(255,0,80,.55)'],[3,0,'rgba(0,230,255,.55)']];else if(V.mat==0&&q.x>-500){const ox=(q.x-W/2)/W*14,oy=(q.y-H/2)/H*14;gh=[[ox*3,oy*3,'rgba(255,255,255,.05)'],[ox*1.8,oy*1.8,'rgba(255,255,255,.09)'],[ox,oy,'rgba(255,255,255,.15)']]}
  pd(c,col,V.mat);V.list.forEach(b=>{if(!b.hide)body(c,b,V.mat,col,gh)});
  if(q.x>-500&&(!C.touch||q.down)&&!V.exp){c.strokeStyle='rgba(255,255,255,.5)';c.lineWidth=1;c.beginPath();c.arc(q.x,q.y,9+(q.down?8:0),0,PI2);c.stroke()}
+ if(S.remove&&q.x>-500){c.save();c.strokeStyle='#ff3b30';c.lineWidth=1.5;c.beginPath();c.arc(q.x,q.y,14,0,PI2);c.moveTo(q.x-20,q.y);c.lineTo(q.x+20,q.y);c.moveTo(q.x,q.y-20);c.lineTo(q.x,q.y+20);c.stroke();c.restore()}
  c.setTransform(1,0,0,1,0,0);c.globalAlpha=.06;c.translate(-(R_()*128|0),-(R_()*128|0));c.fillStyle=GR;c.fillRect(0,0,ow+128,oh+128);c.setTransform(1,0,0,1,0,0);c.globalAlpha=1;
  if(V.gl&&R_()<.2)for(let i=0;i<3;i++){const y=R_()*oh|0,h=8+R_()*70|0;c.drawImage(c.canvas,0,y,ow,h,(R_()-.5)*60,y,ow,h)}}
 
@@ -404,11 +407,19 @@ const pts=new Map();let pd0=0,pz0=1,lastTap={t:0,x:0,y:0};
 const w2=e=>[W/2+(e.clientX-W/2)/CAM.z-CAM.x,H/2+(e.clientY-H/2)/CAM.z-CAM.y];
 cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size===2){const[a,b]=[...pts.values()];pd0=Math.hypot(a[0]-b[0],a[1]-b[1]);pz0=CAM.tz;return}
  if(RP.on)return;C.touch=e.pointerType!=='mouse';[C.x,C.y]=w2(e);if(!C.in){C.px=C.x;C.py=C.y;C.in=true}
+ if(S.remove){
+  let hit=false,best=null,bd=1e9;
+  B.forEach(b=>{if(b.hide)return;const d=Math.hypot(b.x-C.x,b.y-C.y);if(d<b.r*1.35+16&&d<bd){best=b;bd=d}});
+  if(best){ring(best.x,best.y,20,480,.8,3);snd('boom');B=B.filter(b=>b!==best);if(S.parents)S.parents=S.parents.filter(p=>p!==best);structChanged();toast('PARTICLE REMOVED');hit=true}
+  for(let i=0;i<NP;i++){if(pl[i]<=0)continue;const dx=px[i]-C.x,dy=py[i]-C.y;if(dx*dx+dy*dy<2025){pl[i]=0;hit=true}}
+  if(hit&&!best){ring(C.x,C.y,10,320,.5,2);snd('burst')}
+  return}
  const n=performance.now();if(doc.classList.contains('lab')&&n-lastTap.t<320&&Math.hypot(C.x-lastTap.x,C.y-lastTap.y)<50){explode(C.x,C.y);lastTap.t=0;return}lastTap={t:n,x:C.x,y:C.y};
  C.down=true;let best=null,bd=1e9;B.forEach(b=>{if(b.hide||b.reb)return;const d=Math.hypot(b.x-C.x,b.y-C.y);if(d<b.r*1.15+8&&d<bd){best=b;bd=d}});
  if(best){best.grab=1;best.gx=C.x-best.x;best.gy=C.y-best.y;G=best;snd('grab');ring(best.x,best.y,8,300,.6,2)}});
 cv.addEventListener('pointermove',e=>{if(pts.has(e.pointerId))pts.set(e.pointerId,[e.clientX,e.clientY]);
- if(pts.size===2){const[a,b]=[...pts.values()];CAM.tz=cl(pz0*Math.hypot(a[0]-b[0],a[1]-b[1])/pd0,.6,2.4);return}C.touch=e.pointerType!=='mouse';[C.x,C.y]=w2(e);C.in=true});
+ if(pts.size===2){const[a,b]=[...pts.values()];CAM.tz=cl(pz0*Math.hypot(a[0]-b[0],a[1]-b[1])/pd0,.6,2.4);return}C.touch=e.pointerType!=='mouse';[C.x,C.y]=w2(e);C.in=true;
+ if(S.remove&&C.down){let ch=false;B=B.filter(b=>{if(b.hide)return true;const d=Math.hypot(b.x-C.x,b.y-C.y);if(d<b.r*1.2+12){ring(b.x,b.y,16,400,.8,3);ch=true;return false}return true});if(ch){snd('burst');structChanged()}}});
 const up=e=>{pts.delete(e.pointerId);C.down=false;if(G){G.grab=0;G.vx=cl(C.vx,-3500,3500)*.95;G.vy=cl(C.vy,-3500,3500)*.95;G.av=C.vx*.002;G=null;snd('rel')}if(C.touch)C.in=false};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);cv.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&!C.down)C.in=false});
 cv.addEventListener('wheel',e=>{e.preventDefault();CAM.tz=cl(CAM.tz*Math.exp(-e.deltaY*.0012),.6,2.4)},{passive:false});
@@ -424,7 +435,10 @@ let th;txt.oninput=()=>{clearTimeout(th);th=setTimeout(()=>setText(txt.value),22
 const dm={};['obj','mode','mat','pre','tune'].forEach(id=>{dm[id]=mkb(dock,id.toUpperCase(),null,()=>{const open=pop.classList.contains('open')&&panels[id].classList.contains('on');Object.values(panels).forEach(p=>p.classList.remove('on'));if(open)pop.classList.remove('open');else{panels[id].classList.add('on');pop.classList.add('open')}});});
 const pO=panel('obj'),pM=panel('mode'),pT=panel('mat'),pP=panel('pre'),pU=panel('tune');
 ['circle','square','triangle','polygon','ring','line'].forEach(k=>mkb(pO,k,null,()=>addShape(k)));
-mkb(pO,'PARTICLES',()=>S.parts,()=>S.parts=!S.parts);mkb(pO,'IMAGE',null,()=>$('#file').click());
+mkb(pO,'PARTICLES',()=>S.parts,()=>S.parts=!S.parts);
+mkb(pO,'IMAGE',null,()=>$('#file').click());
+mkb(pO,'CLEAR ALL',null,()=>{B=[];structChanged();snd('boom');toast('ALL PARTICLES CLEARED')});
+mkb(pO,'RESPAWN',null,()=>{spawn(S.text,true);snd('grab');toast('RESPAWNED')});
 function setMode(m){S.mode=m;lb=-1;B.forEach(b=>{if(m==='gravity'&&!b.reb)b.vy+=60})}
 MODES.forEach(m=>mkb(pM,m,()=>S.mode===m,()=>setMode(m)));
 MATS.forEach((m,i)=>mkb(pT,m,()=>S.mat===i,()=>{S.mat=i;structChanged()}));
@@ -438,8 +452,9 @@ mkb(pU,'SIGNATURE',()=>S.sign,()=>S.sign=!S.sign);
 const dBrk=mkb(dock,'BREAK',null,()=>S.broken?rebuild():brk()),dMor=mkb(dock,'MORPH',null,morph);
 const surprise=()=>{const k=pick(Object.keys(PR));preset(k,1);P.g=800+R_()*1400;P.b=.3+R_()*.5;setText(pick(WORDS));sync()};
 mkb(dock,'✦ SURPRISE ME',null,surprise);
+const dRem=mkb(dock,'REMOVE',()=>S.remove,()=>{S.remove=!S.remove;doc.classList.toggle('remove-mode',S.remove);if(S.remove)toast('REMOVE TOOL ACTIVE • CLICK ANY PARTICLE TO DELETE');else toast('REMOVE TOOL OFF');sync();snd('grab')},'rm-btn');
 const dRec=mkb(dock,'<i></i>RECORD <span id="rt"></span>',null,toggleRec,'rc');
-function sync(){chips.forEach(([b,t])=>b.classList.toggle('on',!!t()));dm.mode.innerHTML='<i>MODE</i>'+S.mode;dm.mat.innerHTML='<i>MATERIAL</i>'+MATS[S.mat];dm.obj.textContent='OBJECT';dm.pre.textContent='PRESET';dm.tune.textContent='TUNE';dBrk.textContent=S.broken?'REBUILD':'BREAK';dRec.firstChild.style.display='inline-block';const t=dRec.querySelector('#rt');if(t&&!Rc.on)t.textContent='';dRec.childNodes[1].nodeValue=Rc.on?'STOP ':'RECORD '}
+function sync(){chips.forEach(([b,t])=>b.classList.toggle('on',!!t()));dm.mode.innerHTML='<i>MODE</i>'+S.mode;dm.mat.innerHTML='<i>MATERIAL</i>'+MATS[S.mat];dm.obj.textContent='OBJECT';dm.pre.textContent='PRESET';dm.tune.textContent='TUNE';dBrk.textContent=S.broken?'REBUILD':'BREAK';dRem.classList.toggle('on',S.remove);dRec.firstChild.style.display='inline-block';const t=dRec.querySelector('#rt');if(t&&!Rc.on)t.textContent='';dRec.childNodes[1].nodeValue=Rc.on?'STOP ':'RECORD '}
 /* replay controls */
 const r1=$('#r1'),r2=$('#r2'),r3=$('#r3');
 mkb(r1,'PAUSE',null,()=>{RP.play=!RP.play;if(RP.play&&RP.t>=RP.dur-.01)RP.t=0}).id='pp';mkb(r1,'REVERSE',()=>RP.dir<0,()=>RP.dir*=-1);mkb(r1,'LOOP',()=>RP.loop,()=>RP.loop=!RP.loop);
@@ -456,7 +471,9 @@ function setPerf(n){S.perf=n;DPR=[Math.min(devicePixelRatio,2),Math.min(devicePi
 $('#perf').onclick=e=>{S.pm=S.pm>=2?-1:S.pm+1;if(S.pm>=0)setPerf(S.pm);e.target.textContent='PERF '+(S.pm<0?'AUTO':PL[S.pm])};
 addEventListener('keydown',e=>{if(e.target===txt||e.metaKey||e.ctrlKey)return;const k=e.key.toLowerCase();
  if(k==='r')toggleRec();else if(k==='b')S.broken?rebuild():brk();else if(k==='m')morph();else if(k===' '&&RP.on&&e.target===document.body){e.preventDefault();RP.play=!RP.play}
- else if(k==='escape')pop.classList.remove('open');else if(/^[1-7]$/.test(k)&&doc.classList.contains('lab')){setMode(MODES[k-1]);sync()}});
+ else if((k==='x'||k==='delete'||k==='backspace')&&doc.classList.contains('lab')){S.remove=!S.remove;doc.classList.toggle('remove-mode',S.remove);if(S.remove)toast('REMOVE TOOL ACTIVE • CLICK ANY PARTICLE TO DELETE');else toast('REMOVE TOOL OFF');sync();snd('grab')}
+ else if(k==='escape'){if(S.remove){S.remove=false;doc.classList.remove('remove-mode');sync()}pop.classList.remove('open')}
+ else if(/^[1-7]$/.test(k)&&doc.classList.contains('lab')){setMode(MODES[k-1]);sync()}});
 function size(){W=innerWidth;H=innerHeight;cv.width=W*DPR|0;cv.height=H*DPR|0}
 let rt;addEventListener('resize',()=>{size();clearTimeout(rt);rt=setTimeout(()=>{if(!RP.on&&!S.broken&&!Rc.on)spawn(S.text,false)},250)});
 
