@@ -118,8 +118,7 @@ Switch seamlessly between unique vector force fields in real-time:
 ```
 MotionLab/
 │
-├── index.html                    # Production web application with full SEO/AEO/GEO schemas
-├── MOTION LAB.html               # Standalone portable single-file distribution
+├── index.html                    # Unified production web application with full SEO/AEO/GEO schemas
 ├── server.js                     # Local HTTP streaming server with complete MIME handling
 ├── google2af4e1ed3191321d.html   # Google Search Console verification token
 ├── robots.txt                    # Search crawler indexing rules
@@ -132,21 +131,19 @@ MotionLab/
 ### File Responsibilities:
 1. **`index.html`**:
    The primary web application. Includes responsive layouts, metadata for search engines and AI answer engines (Schema.org JSON-LD), procedural audio synthesizer, physics simulation loop, and canvas rendering pipeline.
-2. **`MOTION LAB.html`**:
-   The standalone, zero-dependency source application file, identical in features and ready for instant drag-and-drop viewing in any browser.
-3. **`server.js`**:
+2. **`server.js`**:
    Node.js streaming static file server supporting full MIME types (`.html`, `.js`, `.css`, `.json`, `.png`, `.jpg`, `.svg`, `.webm`, `.mp4`, `.xml`, `.txt`) on port 8080.
-4. **`google2af4e1ed3191321d.html`**:
+3. **`google2af4e1ed3191321d.html`**:
    Official ownership verification file for Google Search Console indexing.
-5. **`robots.txt`**:
+4. **`robots.txt`**:
    Robots exclusion standard configuration enabling web crawlers to index the application.
-6. **`sitemap.xml`**:
+5. **`sitemap.xml`**:
    Standardized XML sitemap providing endpoints and change frequencies to search engines.
-7. **`LICENSE`**:
+6. **`LICENSE`**:
    Comprehensive Proprietary Software License under Copyright © 2025–2026 Teja Priyan, prohibiting unauthorized copying, cloning, or distribution.
-8. **`README.md`**:
+7. **`README.md`**:
    Technical documentation, feature overview, and author credentials.
-9. **`.gitignore`**:
+8. **`.gitignore`**:
    Excludes temporary build artifacts, log files, OS metadata, and node modules.
 
 ---
