@@ -14,7 +14,11 @@
 [![Technology](https://img.shields.io/badge/Stack-HTML5%20Canvas%20%7C%20Web%20Audio-blue?style=for-the-badge)](https://github.com/TejaPriyan/MotionLab)
 [![Platform](https://img.shields.io/badge/Platform-Mobile%20%26%20Desktop%20Ready-black?style=for-the-badge)](https://github.com/TejaPriyan/MotionLab)
 
-<br/>
+<br/><br/>
+
+<img src="assets/preview.png" alt="Motion Lab - Interactive Kinetic Typography by Teja Priyan" width="760" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 10px 30px rgba(0,0,0,0.6);" />
+
+<br/><br/>
 
 > *"Your movement becomes the animation."*  
 > **Motion Lab** is a zero-dependency, hardware-accelerated kinetic typography laboratory combining sub-stepped 2D physics integration, procedural Web Audio sound synthesis, directional squash & stretch dynamics, interactive particle deletion tools, and a high-precision multi-track timeline recorder with social video export.
@@ -118,6 +122,8 @@ Switch seamlessly between unique vector force fields in real-time:
 ```
 MotionLab/
 │
+├── assets/
+│   └── preview.png               # High-resolution application preview screenshot
 ├── index.html                    # Unified production web application with full SEO/AEO/GEO schemas
 ├── server.js                     # Local HTTP streaming server with complete MIME handling
 ├── google2af4e1ed3191321d.html   # Google Search Console verification token
