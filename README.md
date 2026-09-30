@@ -5,6 +5,8 @@
 ### High-Performance Kinetic Typography & Interactive Physics Playground
 **Conceived, Designed & Developed by [Teja Priyan](https://github.com/TejaPriyan)**
 
+🌐 **Live Web Application**: **[https://motionlab1.vercel.app/](https://motionlab1.vercel.app/)**
+
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-motionlab1.vercel.app-00dfa2?style=for-the-badge&logo=vercel)](https://motionlab1.vercel.app/)
 [![Author](https://img.shields.io/badge/Author-Teja%20Priyan-ff6a3d?style=for-the-badge&logo=github)](https://github.com/TejaPriyan)
 [![License: Proprietary](https://img.shields.io/badge/License-All%20Rights%20Reserved-red.svg?style=for-the-badge)](LICENSE)
@@ -152,9 +154,10 @@ MotionLab/
 ## 👤 Author & Creator
 
 **Teja Priyan**
+* **Live Website**: [https://motionlab1.vercel.app/](https://motionlab1.vercel.app/)
 * **GitHub**: [@TejaPriyan](https://github.com/TejaPriyan)
-* **Email**: teja1616150@gmail.com
 * **Project Repository**: [https://github.com/TejaPriyan/MotionLab](https://github.com/TejaPriyan/MotionLab)
+* **Email**: teja1616150@gmail.com
 
 ---
 
