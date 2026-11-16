@@ -8,3 +8,6 @@ Thumbs.db
 .gemini/
 .agents/
 .vscode/
+.env
+.env.*
+!.env.example
